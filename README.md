@@ -1,81 +1,94 @@
-# Intercom
+# 🧬 TRAC AI Wallet Insight Assistant
 
-This repository is a reference implementation of the **Intercom** stack on Trac Network for an **internet of agents**.
+> An AI-powered on-chain behavior analysis tool built on **Trac Network / Intercom** stack.
 
-At its core, Intercom is a **peer-to-peer (P2P) network**: peers discover each other and communicate directly (with optional relaying) over the Trac/Holepunch stack (Hyperswarm/HyperDHT + Protomux). There is no central server required for sidechannel messaging.
-
-Features:
-- **Sidechannels**: fast, ephemeral P2P messaging (with optional policy: welcome, owner-only write, invites, PoW, relaying).
-- **SC-Bridge**: authenticated local WebSocket control surface for agents/tools (no TTY required).
-- **Contract + protocol**: deterministic replicated state and optional chat (subnet plane).
-- **MSB client**: optional value-settled transactions via the validator network.
-
-Additional references: https://www.moltbook.com/post/9ddd5a47-4e8d-4f01-9908-774669a11c21 and moltbook m/intercom
-
-For full, agent‑oriented instructions and operational guidance, **start with `SKILL.md`**.  
-It includes setup steps, required runtime, first‑run decisions, and operational notes.
-
-## Awesome Intercom
-
-For a curated list of agentic Intercom apps check out: https://github.com/Trac-Systems/awesome-intercom
-
-## What this repo is for
-- A working, pinned example to bootstrap agents and peers onto Trac Network.
-- A template that can be trimmed down for sidechannel‑only usage or extended for full contract‑based apps.
-
-## How to use
-Use the **Pear runtime only** (never native node).  
-Follow the steps in `SKILL.md` to install dependencies, run the admin peer, and join peers correctly.
-
-## Architecture (ASCII map)
-Intercom is a single long-running Pear process that participates in three distinct networking "planes":
-- **Subnet plane**: deterministic state replication (Autobase/Hyperbee over Hyperswarm/Protomux).
-- **Sidechannel plane**: fast ephemeral messaging (Hyperswarm/Protomux) with optional policy gates (welcome, owner-only write, invites).
-- **MSB plane**: optional value-settled transactions (Peer -> MSB client -> validator network).
-
-```text
-                          Pear runtime (mandatory)
-                pear run . --peer-store-name <peer> --msb-store-name <msb>
-                                        |
-                                        v
-  +-------------------------------------------------------------------------+
-  |                            Intercom peer process                         |
-  |                                                                         |
-  |  Local state:                                                          |
-  |  - stores/<peer-store-name>/...   (peer identity, subnet state, etc)    |
-  |  - stores/<msb-store-name>/...    (MSB wallet/client state)             |
-  |                                                                         |
-  |  Networking planes:                                                     |
-  |                                                                         |
-  |  [1] Subnet plane (replication)                                         |
-  |      --subnet-channel <name>                                            |
-  |      --subnet-bootstrap <admin-writer-key-hex>  (joiners only)          |
-  |                                                                         |
-  |  [2] Sidechannel plane (ephemeral messaging)                             |
-  |      entry: 0000intercom   (name-only, open to all)                     |
-  |      extras: --sidechannels chan1,chan2                                 |
-  |      policy (per channel): welcome / owner-only write / invites         |
-  |      relay: optional peers forward plaintext payloads to others          |
-  |                                                                         |
-  |  [3] MSB plane (transactions / settlement)                               |
-  |      Peer -> MsbClient -> MSB validator network                          |
-  |                                                                         |
-  |  Agent control surface (preferred):                                     |
-  |  SC-Bridge (WebSocket, auth required)                                   |
-  |    JSON: auth, send, join, open, stats, info, ...                       |
-  +------------------------------+------------------------------+-----------+
-                                 |                              |
-                                 | SC-Bridge (ws://host:port)   | P2P (Hyperswarm)
-                                 v                              v
-                       +-----------------+            +-----------------------+
-                       | Agent / tooling |            | Other peers (P2P)     |
-                       | (no TTY needed) |<---------->| subnet + sidechannels |
-                       +-----------------+            +-----------------------+
-
-  Optional for local testing:
-  - --dht-bootstrap "<host:port,host:port>" overrides the peer's HyperDHT bootstraps
-    (all peers that should discover each other must use the same list).
-```
+**Live App:** [`index.html`](./index.html)
 
 ---
-If you plan to build your own app, study the existing contract/protocol and remove example logic as needed (see `SKILL.md`).
+
+## 🔍 What Is This?
+
+TRAC AI Wallet Insight Assistant is more than a balance checker — it's a **behavioral intelligence layer** for TRAC/TAP wallets on Bitcoin.
+
+Users can ask:
+- *"Analyze my wallet activity"*
+- *"Am I holding or trading too much?"*
+- *"What is my risk profile?"*
+- *"How am I spending my TRAC?"*
+
+The AI will:
+- ✅ Classify wallet type (Active Trader / Long-Term Holder / Whale / Dormant)
+- ✅ Analyze transaction frequency & direction ratios
+- ✅ Detect behavioral patterns over time
+- ✅ Generate a natural-language insight report
+- ✅ Answer follow-up questions via conversational chat
+
+**Example AI response:**
+> *"You made 18 outgoing transactions this month. Your 72% outgoing ratio classifies you as an Active Trader rather than a long-term holder. Consider batching transfers to reduce network costs."*
+
+---
+
+## 🚀 Features
+
+| Feature | Description |
+|---|---|
+| 🧠 AI Analysis | Claude-powered behavior classification & pattern detection |
+| 📊 Stats Dashboard | Real-time TX stats, activity scores, and behavior bars |
+| 💬 Chat Interface | Ask anything about your wallet in plain language |
+| ⚡ Quick Queries | One-click questions for common analysis needs |
+| 🎨 Dark UI | Cyberpunk aesthetic with animated background grid |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Pure HTML/CSS/JS — single file, zero dependencies
+- **AI:** Anthropic Claude API (`claude-sonnet-4`) via Intercom agent integration
+- **Network:** Trac Network / Intercom P2P sidechannels
+- **Protocol:** TAP (Token Allocation Protocol) on Bitcoin
+
+---
+
+## 📸 App Preview
+
+The app features:
+- Animated grid background with floating gradient orbs
+- Stats row showing Total TXs, Incoming, Outgoing, and Profile type
+- AI Insight Report with behavior breakdown bars
+- Conversational chat interface
+
+---
+
+## 🔑 TRAC Address
+
+```
+trac14c7k6qdee4hrtr326agwdgy42hkzgwsylymyd3fx3q5zn2phw5ls8xka7n
+```
+
+> *(Replace this with your actual TRAC address to receive payouts)*
+
+---
+
+## 📖 How to Run
+
+1. Clone this repo
+2. Open `index.html` in your browser
+3. Enter any TRAC wallet address
+4. Click **ANALYZE →**
+5. Ask follow-up questions in the chat
+
+No build step. No server required.
+
+---
+
+## 🔗 Built On
+
+- **Upstream Intercom:** https://github.com/Trac-Systems/intercom
+- **Trac Network:** https://trac.network
+- **Awesome Intercom:** https://github.com/Trac-Systems/awesome-intercom
+
+---
+
+## 📄 License
+
+MIT
